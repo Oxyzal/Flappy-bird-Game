@@ -24,6 +24,8 @@ fly = False
 game_over = False
 timer_pipe = 1500
 last_pipe = pygame.time.get_ticks() - timer_pipe
+score = 0 
+point = False
 
 #charger les images
 background = pygame.image.load('resources/images/background.png')
@@ -35,7 +37,12 @@ pipe_group = pygame.sprite.Group()
 player = Bird(100, int(screen_h /2))
 group.add(player)
 
+font = pygame.font.SysFont('Bauhaus 93', 60)
+white = (255, 255, 255)
 
+def draw_text(text,font,text_col,x,y):
+    img = font.render(text, True, text_col)
+    screen.blit(img, (x,y))
 
 
 run = True
@@ -51,6 +58,17 @@ while run :
     
     screen.blit(ground,(ground_s,760))
     
+    #score
+    if len(pipe_group) > 0:
+        if group.sprites()[0].rect.left > pipe_group.sprites()[0].rect.left and group.sprites()[0].rect.right < pipe_group.sprites()[0].rect.right and point == False:
+            point = True
+        if point == True:
+            if group.sprites()[0].rect.left > pipe_group.sprites()[0].rect.right:
+                score += 1
+                point = False
+                
+    print(score)
+    draw_text(str(score), font, white, int(screen_w / 2),20)
     #collision
     if pygame.sprite.groupcollide(group, pipe_group, False, False) or player.rect.top < 0:
         game_over = True
