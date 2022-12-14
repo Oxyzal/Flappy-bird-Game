@@ -1,5 +1,6 @@
 import pygame 
 from pygame.locals import *
+from data.bird import Bird
 import random
 
 pygame.init()
@@ -21,17 +22,26 @@ scroll_speed = 4
 
 
 #charger les images
-background = pygame.image.load('images/background.png')
-ground = pygame.image.load('images/ground.png')
+background = pygame.image.load('resources/images/background.png')
+ground = pygame.image.load('resources/images/ground.png')
+
+group = pygame.sprite.Group()
+player = Bird(100, int(screen_h /2))
+group.add(player)
 
 run = True
 while run :
     
     clock.tick(fps)
-    
+    #on met en place le décor
     screen.blit(background,(0,0))
     
+    group.draw(screen)
+    player.update()
     screen.blit(ground,(ground_s,760))
+    
+    
+    #le scroll du jeu 
     ground_s -= scroll_speed
     if abs(ground_s) > 35:
         ground_s = 0
