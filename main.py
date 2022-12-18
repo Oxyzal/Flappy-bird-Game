@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from data.bird import Bird
 from data.pipe import Pipe
+from data.button import Button
 import random
 
 pygame.init()
@@ -31,6 +32,8 @@ point = False
 background = pygame.image.load('resources/images/background.png')
 ground = pygame.image.load('resources/images/ground.png')
 
+button_img = pygame.image.load('resources/images/restart.png')
+
 group = pygame.sprite.Group()
 pipe_group = pygame.sprite.Group()
 
@@ -44,6 +47,15 @@ def draw_text(text,font,text_col,x,y):
     img = font.render(text, True, text_col)
     screen.blit(img, (x,y))
 
+
+def reset_game():
+    pipe_group.empty()
+    player.rect.x = 100
+    player.rect.y = int(screen_h / 2)
+    score = 0 
+    return score
+
+button = Button(screen_w // 2 - 50 , screen_h // 2 -100, button_img)
 
 run = True
 while run :
@@ -92,7 +104,13 @@ while run :
         if abs(ground_s) > 35:
             ground_s = 0
         pipe_group.update(scroll_speed)
-    
+        
+    if game_over == True:
+        if button.draw(screen) == True :
+            print("Clicked")
+            game_over = False
+            score = reset_game()
+            
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False

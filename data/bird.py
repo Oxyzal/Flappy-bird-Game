@@ -3,7 +3,7 @@ import pygame
 class Bird(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('./resources/images/bird1.png')
+        self.image = pygame.image.load('./resources/images/tete.jpg')
         self.rect = self.image.get_rect()
         self.rect.center = [x,y]
         self.vel = 0
